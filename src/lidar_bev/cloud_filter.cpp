@@ -328,7 +328,7 @@ void CloudFilter::filterIntensities(double intensity_threshold){
 
 
 /* Wait for the transform lidar -> camera and update velo_cam_transform_ */
-void CloudFilter::initTF(std::string lidar_frame, std::string camera_frame){
+void CloudFilter::initTF(std::string lidar_frame, std::string camera_frame, std::string base_frame){
     if (!tf_) tf_ = new tf::TransformListener;
     bool tf_error = true;
     while(tf_error)
@@ -337,8 +337,8 @@ void CloudFilter::initTF(std::string lidar_frame, std::string camera_frame){
         {
             tf_->waitForTransform(lidar_frame, camera_frame, ros::Time(0), ros::Duration(5));
             tf_->lookupTransform(lidar_frame, camera_frame, ros::Time(0), velo_cam_transform_);
-            tf_->waitForTransform("base_footprint", lidar_frame, ros::Time(0), ros::Duration(5));
-            tf_->lookupTransform("base_footprint", lidar_frame, ros::Time(0), base_velo_transform_);
+            tf_->waitForTransform(base_frame, lidar_frame, ros::Time(0), ros::Duration(5));
+            tf_->lookupTransform(base_frame, lidar_frame, ros::Time(0), base_velo_transform_);
             tf_error = false;
         }
         catch (tf::TransformException ex)

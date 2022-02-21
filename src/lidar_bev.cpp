@@ -117,6 +117,9 @@ int main(int argc, char *argv[])
     private_nh.param<string>("lidar_tf_frame", lidar_tf_frame, "/velo_link");
     string camera_tf_frame;
     private_nh.param<string>("camera_tf_frame", camera_tf_frame, "/camera_color_left");
+    string base_tf_frame;
+    private_nh.param<string>("base_tf_frame", base_tf_frame, "/car7/base_link");    
+
     private_nh.param("camera_fov", camera_fov, 110.0);
     private_nh.param("intensity_threshold", intensity_threshold, 0.05);
     private_nh.param("planes", planes, 32);
@@ -138,7 +141,7 @@ int main(int argc, char *argv[])
 
     // Init the lidar - camera transformation for the filter
     filter.setIntensityNormalization(max_expected_intensity_);
-    filter.initTF(lidar_tf_frame, camera_tf_frame);
+    filter.initTF(lidar_tf_frame, camera_tf_frame, base_tf_frame);
     filter.initMaxPointsMap(grid_dim, cell_size, 0, max_height, num_slices, planes, low_opening, h_res, v_res);
 
     bird_view_pub = it.advertise("bird_view", 1);

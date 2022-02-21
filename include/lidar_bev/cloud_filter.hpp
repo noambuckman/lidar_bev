@@ -42,7 +42,7 @@ public:
     void filterIntensities(double intensity_threshold);
 
     /* Wait for the transform lidar -> camera and update velo_cam_transform_ */
-    void initTF(std::string lidar_frame, std::string camera_frame);
+    void initTF(std::string lidar_frame, std::string camera_frame, std::string base_frame);
 
     /* Manually set tf transforms */
     void setVeloToCamTransform(tf::StampedTransform velo_cam_transform);
