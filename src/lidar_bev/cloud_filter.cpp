@@ -337,16 +337,25 @@ void CloudFilter::initTF(std::string lidar_frame, std::string camera_frame, std:
         {
             tf_->waitForTransform(lidar_frame, camera_frame, ros::Time(0), ros::Duration(5));
             tf_->lookupTransform(lidar_frame, camera_frame, ros::Time(0), velo_cam_transform_);
+            tf_error = false;
+        }
+        catch (tf::TransformException ex)
+        {
+            ROS_WARN("Lidar Frame -> Camera Frame %s",ex.what());
+            //throw (ex);
+        }
+        try
+        {
             tf_->waitForTransform(base_frame, lidar_frame, ros::Time(0), ros::Duration(5));
             tf_->lookupTransform(base_frame, lidar_frame, ros::Time(0), base_velo_transform_);
             tf_error = false;
         }
         catch (tf::TransformException ex)
         {
-            ROS_WARN("%s",ex.what());
+            ROS_WARN("Base Frame -> Camera Frame %s",ex.what());
             ROS_WARN("%s",base_frame);
             //throw (ex);
-        }
+        }        
     }
     std::cout << "New transform: " << velo_cam_transform_.getOrigin().x() << ", " << velo_cam_transform_.getOrigin().y() << std::endl;
 }
