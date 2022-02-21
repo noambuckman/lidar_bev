@@ -344,6 +344,8 @@ void CloudFilter::initTF(std::string lidar_frame, std::string camera_frame, std:
         catch (tf::TransformException ex)
         {
             ROS_WARN("%s",ex.what());
+            ROS_WARN("%s",base_frame);
+
             //throw (ex);
         }
     }
